@@ -15,4 +15,4 @@ FROM maven:3.8.5-openjdk-17-slim AS runtime
 WORKDIR /app
 COPY --from=builder /app /app
 
-CMD ["mvn", "clean", "test", "-Dmaven.test.failure.ignore=true"]
+CMD ["mvn", "clean", "test"]
