@@ -51,6 +51,46 @@ public class DemoServiceTest {
         softAssert.assertAll();
     }
 
+    @Test(description = "Filter by Model")
+    public void testFilterByYear() {
+        var year = 2017;
+        var reqBody = Car.builder().year(year).build();
+        var response = RestAssured.given()
+                .body(reqBody)
+                .contentType(ContentType.JSON)
+                .post("/cars")
+                .then()
+                .extract()
+                .response();
+
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(response.statusCode() == 200, "Incorrect http status code");
+        var cars = response.body().jsonPath().getList("data.cars", Car.class);
+        softAssert.assertTrue(!cars.isEmpty(), "No cars found");
+        cars.forEach(car -> softAssert.assertTrue(car.getYear().equals(year), "Incorrect model"));
+        softAssert.assertAll();
+    }
+
+    @Test(description = "Filter by color")
+    public void testFilterByColor() {
+        var color = "White";
+        var reqBody = Car.builder().color(color).build();
+        var response = RestAssured.given()
+                .body(reqBody)
+                .contentType(ContentType.JSON)
+                .post("/cars")
+                .then()
+                .extract()
+                .response();
+
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(response.statusCode() == 200, "Incorrect http status code");
+        var cars = response.body().jsonPath().getList("data.cars", Car.class);
+        softAssert.assertTrue(!cars.isEmpty(), "No cars found");
+        cars.forEach(car -> softAssert.assertTrue(car.getColor().equals(color), "Incorrect color"));
+        softAssert.assertAll();
+    }
+
     @Test(description = "Filter when no cars found")
     public void testWhenNoCarsFound() {
         var manufacturer = "Nissan";
