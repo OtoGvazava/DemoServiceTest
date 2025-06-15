@@ -8,7 +8,7 @@ public class DemoServiceTest {
 
     @BeforeClass
     public void initialSetup() {
-        RestAssured.baseURI = "http://demo-service-container:8090";
+        RestAssured.baseURI = "http://host.docker.internal:8090";
     }
 
     @Test(description = "Filter by Manufacturer")
